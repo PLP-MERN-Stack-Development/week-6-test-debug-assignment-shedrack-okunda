@@ -1,48 +1,48 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ import useNavigate
+import { useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
+const RegisterForm = () => {
+	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [message, setMessage] = useState("");
 	const [error, setError] = useState("");
 
-	const navigate = useNavigate(); // ✅ initialize navigate
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setMessage("");
 		setError("");
 
-		if (!email || !password) {
+		if (!username || !email || !password) {
 			setError("All fields are required");
 			return;
 		}
 
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/auth/login",
+				"http://localhost:5000/api/auth/register",
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ email, password }),
+					body: JSON.stringify({ username, email, password }),
 				}
 			);
 
 			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.message || "Login failed");
+				throw new Error(data.message || "Registration failed");
 			}
 
+			// Save user info and redirect
 			if (data.user) {
 				localStorage.setItem("user", JSON.stringify(data.user));
 			} else {
 				throw new Error("Invalid user data received");
 			}
-
-			setMessage("Login successful");
-
+			setMessage("Registration successful");
 			navigate("/dashboard");
 		} catch (err) {
 			setError(err.message);
@@ -52,9 +52,9 @@ const LoginForm = () => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			data-testid="login-form"
-			className="mt-10 max-w-md mx-auto  space-y-4">
-			<h2 className="text-xl font-bold">Login</h2>
+			data-testid="register-form"
+			className="max-w-md mx-auto space-y-4">
+			<h2 className="text-xl font-bold">Register</h2>
 
 			{error && (
 				<div role="alert" className="text-red-600">
@@ -68,14 +68,26 @@ const LoginForm = () => {
 			)}
 
 			<div>
+				<label>Username:</label>
+				<input
+					type="text"
+					name="username"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
+					className="border p-2 w-full"
+					data-testid="username-input"
+				/>
+			</div>
+
+			<div>
 				<label>Email:</label>
 				<input
 					type="email"
 					name="email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
-					data-testid="email-input"
 					className="border p-2 w-full"
+					data-testid="email-input"
 				/>
 			</div>
 
@@ -86,18 +98,18 @@ const LoginForm = () => {
 					name="password"
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
-					data-testid="password-input"
 					className="border p-2 w-full"
+					data-testid="password-input"
 				/>
 			</div>
 
 			<button
 				type="submit"
-				className="bg-blue-500 text-white px-4 py-2 rounded">
-				Login
+				className="bg-green-500 text-white px-4 py-2 rounded">
+				Register
 			</button>
 		</form>
 	);
 };
 
-export default LoginForm;
+export default RegisterForm;
