@@ -2,21 +2,23 @@
 	"name": "server",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "server.js",
 	"directories": {
 		"test": "tests"
 	},
 	"scripts": {
-		"start": "nodemon src/app.js",
+		"start": "nodemon src/server.js",
 		"test": "jest",
 		"test:watch": "jest --watch",
-		"test:server": "jest --config=jest.config.js"
+		"test:server": "jest --config=jest.config.js",
+		"test:integration": "jest tests"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"type": "commonjs",
 	"dependencies": {
+		"bcryptjs": "^3.0.2",
 		"cors": "^2.8.5",
 		"dotenv": "^17.2.0",
 		"express": "^5.1.0",
@@ -26,6 +28,7 @@
 	"devDependencies": {
 		"@types/jest": "^30.0.0",
 		"jest": "^30.0.4",
+		"mongodb-memory-server": "^10.1.4",
 		"nodemon": "^3.1.10",
 		"supertest": "^7.1.3"
 	}

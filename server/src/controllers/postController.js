@@ -22,7 +22,7 @@ const createPost = async (req, res) => {
 		const savedPost = await newPost.save();
 		res.status(201).json(savedPost);
 	} catch (error) {
-		res.status(500).json({ message: error.message });
+		res.status(400).json({ message: error.message });
 	}
 };
 
