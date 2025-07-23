@@ -12,7 +12,8 @@
 		"test:watch": "jest --watch",
 		"test:client": "jest --config=jest.config.js",
 		"test:integration": "jest src/tests",
-		"test:e2e": "cypress open"
+		"test:e2e": "cypress open",
+		"test:coverage": "jest --coverage"
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.1.11",
